@@ -12,10 +12,10 @@ const app = express();
 
 // connect to mongodb 
 // DO NOT UNDER AN CIRCUMSTANCE CHANGE THE CONST dbURI! Or give out the password. Seriously.
-const dbURI = 'mongodb+srv://net-ninja:pass123@cluster0.ymr4b.mongodb.net/final-proj?retryWrites=true&w=majority&appName=Cluster0';
+const dbURI = 'mongodb+srv://@cluster0.ymr4b.mongodb.net/final-proj?retryWrites=true&w=majority&appName=Cluster0';
 
 // kanes login 
-// 'mongodb+srv://netbinja:Work5678@cluster0.1xlo7.mongodb.net/note-dots?retryWrites=true&w=majority&appName=Cluster0';
+// 'mongodb+srv://@cluster0.1xlo7.mongodb.net/note-dots?retryWrites=true&w=majority&appName=Cluster0';
 mongoose.connect(dbURI)
     .then((result) => app.listen(3000))
     .catch((err) => console.log(err));
