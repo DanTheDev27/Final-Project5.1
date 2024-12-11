@@ -1,0 +1,25 @@
+{
+  "name": "advancedcode",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
+    "mongodb": "^6.11.0",
+    "mongoose": "^8.8.3",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.7",
+    "validator": "^13.12.0"
+  }
+}

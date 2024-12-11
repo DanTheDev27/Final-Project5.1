@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("./partials/head.ejs") %>
+
+<body>
+    <%- include("./partials/nav.ejs") %>
+
+    <div class="details content">
+        <h2><%= course.title %></h2> 
+        <div class="content">
+            <p><%= course.duration %></p> 
+        </div>
+        <a class="delete" data-doc="<%= course._id %>">delete</a> 
+
+        <a href="/courses/<%= course._id %>/edit" class="edit-button">Edit Course</a> >
+    </div>
+
+    <%- include("./partials/footer.ejs") %>
+
+    <script>
+        const trashcan = document.querySelector('a.delete');
+
+        trashcan.addEventListener('click', (e) => {
+            const endpoint = `/courses/${trashcan.dataset.doc}`; <!-- Changed blog to course -->
+
+            fetch(endpoint, {
+                method: 'DELETE'
+            })
+            .then((response) => response.json())
+            .then((data) => window.location.href = data.redirect)
+            .catch(err => console.log(err));
+        });
+    </script>
+
+</body>
+</html>

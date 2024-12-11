@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap');
+
+body {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+    font-family: 'Noto Serif', serif;
+}
+/* This colors the title of all text */
+p, h1, h2, h3, a, ul {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    color: #200;
+}
+/* nav & footer styles */
+nav {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 60px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    text-transform: uppercase;
+}
+
+nav ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+nav li {
+    list-style-type: none;
+    margin-left: 20px;
+}
+nav h1 {
+    font-size: 3em;
+}
+/* bolder */
+nav p, nav a {
+    color: #777;
+    font-weight: 300;
+}
+footer {
+    color: #777;
+    text-align: center;
+    margin: 80px auto 20px;
+}
+h2 {
+    margin-bottom: 40px;
+}
+h3 {
+    text-transform: capitalize;
+    margin-bottom: 8px;
+}
+
+/* index styles */
+.courses a { 
+    display: block;
+    margin: 40px 0;
+    padding-left: 30px;
+    
+}
+.courses a:hover h3 { 
+    color: crimson;
+}
+
+/* details styles */
+.details {
+    position: relative;
+}
+.delete {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 50%;
+    padding: 8px;
+    background-color: crimson;
+    color: white;
+}
+.delete:hover {
+    cursor: pointer;
+    box-shadow: 1px 2px 3px rgba(0,0,0,0.2);
+}
+
+/* create styles */
+.content {
+    margin-left: 20px;
+}
+
+.create-course form { 
+    max-width: 400px;
+    margin: 0 auto;
+}
+.create-course input, 
+.create-course textarea { 
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 8px;
+}
+.create-course label { 
+    display: block;
+    margin-top: 24px;
+}
+textarea {
+    height: 120px;
+}
+.create-course button { 
+    margin-top: 20px;
+    background: crimson;
+    color: white;
+    padding: 6px;
+    border: 0;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+/* about page styles */
+.about-page .content {
+    background-color: #bca9ff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Edit button styles */
+.edit-button {
+    display: inline-block;
+    margin-top: 10px; /* Add some space above the edit button */
+    padding: 10px 20px;
+    background-color: #008cba;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.edit-button:hover {
+    background-color: #005f5f;
+}
+
+
+
+
+
+
+
+/* Styles for the header container */
+.header-container {
+    background-color: black; /* Black background */
+    color: white; /* White text */
+    padding: 20px; /* Add some padding */
+    display: flex;
+    justify-content: space-between; /* Space out the elements */
+    align-items: center; /* Center align the items */
+}
+
+.header-container .site-title h1,
+.header-container .site-title p,
+.header-container ul li a {
+    color: white; /* Ensure all text within the container is white */
+}
+
+.header-container ul {
+    display: flex;
+    list-style-type: none; /* Remove default list styling */
+}
+
+.header-container ul li {
+    margin-left: 20px; /* Add space between navigation items */
+}
+
+.header-container ul li a {
+    text-decoration: none; /* Remove underline from links */
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Table styles */
+.courses-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .courses-table th, .courses-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .courses-table th {
+    background-color: #f2f2f2;
+    text-align: left;
+  }
+  
+  .courses-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .courses-table tr:hover {
+    background-color: #ddd;
+  }
+  
+  /* Change view button color*/
+  .view-button {
+    text-decoration: none;
+    color: white;
+    background-color: #d1d1d1;
+    padding: 5px 10px;
+    border-radius: 3px;
+    margin-right: 5px;
+  }
+  
+  
+  
+  .view-button:hover, .edit-button:hover, .delete-button:hover {
+    opacity: 0.8;
+  }
+  

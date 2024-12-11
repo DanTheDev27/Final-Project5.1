@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./partials/head.ejs') %>
+<body>
+    <%- include('./partials/nav.ejs') %>
+
+    <div class="edit-course content"> 
+        <h2>Edit Course</h2>
+        <form action="/courses/<%= course._id %>" method="POST"> 
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" value="<%= course.title %>" required>
+
+            <label for="description">Description:</label> 
+            <textarea id="description" name="description" required><%= course.description %></textarea> 
+
+            <label for="duration">Duration:</label> 
+            <textarea id="duration" name="duration" required><%= course.duration %></textarea> 
+
+            <button type="submit">Update Course</button> 
+        </form>
+    </div>
+
+    <%- include('./partials/footer.ejs') %>
+</body>
+</html>
+
+
+
+<!--Whole file is new-->

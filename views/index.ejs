@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('./partials/head.ejs') %>
+
+<body>
+
+<%- include('./partials/nav.ejs') %>
+
+  <div class="courses content">
+    <h2>Course Content</h2>
+
+    <% if (courses.length > 0) { %>
+      <table class="courses-table">
+        <thead>
+          <tr>
+            <th>Course Name</th>
+            <th>Description</th>
+            <th>Duration</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% courses.forEach(course => { %>
+            <tr>
+              <td><%= course.title %></td>
+              <td><%= course.description %></td>
+              <td><%= course.duration %></td>
+              <td>
+                <a href="/courses/<%= course._id %>" class="view-button">View</a>
+                
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } else { %>
+      <p>There are no courses to display</p>
+    <% } %>
+
+  </div>
+
+  <%- include('./partials/footer.ejs') %>
+
+  <script>
+    const deleteButtons = document.querySelectorAll('a.delete-button');
+
+    deleteButtons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        const endpoint = `/courses/${button.dataset.doc}`;
+
+        fetch(endpoint, {
+          method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => window.location.href = data.redirect)
+        .catch(err => console.log(err));
+      });
+    });
+  </script>
+
+</body>
+</html>
+
+
