@@ -1,18 +1,18 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const courseSchema = new Schema({
+const courseSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true
+        required: [true, 'Course title is required']
     },
     description: {  // Changed snippet to description
         type: String,
-        required: true
+        required: [true, 'Course description is required']
     },
     duration: {  // Changed body to duration
         type: String,
-        required: true
+        required: [true, 'Course duration is required']
     }
 }, { timestamps: true });
 

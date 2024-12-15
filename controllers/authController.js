@@ -39,27 +39,39 @@ const createToken = (id) => {
 }
 
 module.exports.signup_get = (req, res) => {
-    res.render('signup', {title: 'Sign up'});
+    res.render('signup', {title: 'Sign up', user: req.body});
 }
 
 module.exports.login_get = (req, res) => {
-    res.render('login', {title: 'Login'});
+    res.render('login', {title: 'Login', user: res.locals.user});
 }
 
 module.exports.signup_post = async(req, res) => {
     const { email, password } = req.body;
 
-    try{
-       const user = await User.create({ email, password });
-       const token = createToken(user._id);
-       res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000 })
-       res.status(201).json({ user: user._id });
-    }
-    catch(err) {
-        const errors = handleErrors(err);
-        res.status(400).json({errors});
+    try {
+        // Attempt to create a new user
+        const user = await User.create({ email, password });
 
+        // Generate a JWT token after successful signup
+        const token = createToken(user._id);
+
+        // Set the JWT token as a cookie
+        res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+
+        req.session.user = user;
+
+        // Return the user ID in the response
+        // res.status(201).json({ user: user._id });
+        res.redirect('/login');
+        // Optionally store user in session (if using sessions)
+        // req.session.user = user;
+    } catch (err) {
+        // Handle validation errors and other issues
+        const errors = handleErrors(err);
+        res.status(400).json({ errors });  // Send back errors to frontend
     }
+
 }
 
 module.exports.login_post = async(req, res) => {
@@ -82,3 +94,7 @@ module.exports.logout_get = (req,res) => {
     res.cookie('jwt', '', {maxAge: 1});
     res.redirect('/');
 }
+
+// authController.js
+
+

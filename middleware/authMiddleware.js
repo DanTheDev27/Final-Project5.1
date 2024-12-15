@@ -33,10 +33,20 @@ const checkUser = (req, res, next) => {
                 res.locals.user = null;
                 next();
             } else{
-                console.log(decodedToken);
-                let user = await User.findById(decodedToken.id);
-                res.locals.user = user;
-                next();
+                User.findById(decodedToken.id)
+                    .then(user => {
+                        res.locals.user = user;  // Set the logged-in user
+                        next();
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.locals.user = null;  // If user is not found, set to null
+                        next();
+                    });
+                // console.log(decodedToken);
+                // let user = await User.findById(decodedToken.id);
+                // res.locals.user = user;
+                // next();
             }
         })
     }
@@ -45,6 +55,8 @@ const checkUser = (req, res, next) => {
         next();
     }
 }
+
+
 
 
 module.exports = { requireAuth, checkUser };

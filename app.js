@@ -1,7 +1,8 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const Course = require('./models/course'); 
+const Course = require('./models/course');
+const User = require('./models/User');
 const authRoutes = require('./routes/authRoutes');
 const cookieParser = require('cookie-parser');
 const { requireAuth, checkUser } = require('./middleware/authMiddleware');
@@ -9,13 +10,10 @@ const { requireAuth, checkUser } = require('./middleware/authMiddleware');
 // express app
 const app = express();
 
-
 // connect to mongodb 
 // DO NOT UNDER AN CIRCUMSTANCE CHANGE THE CONST dbURI! Or give out the password. Seriously.
 const dbURI = 'mongodb+srv://@cluster0.ymr4b.mongodb.net/final-proj?retryWrites=true&w=majority&appName=Cluster0';
 
-// kanes login 
-// 'mongodb+srv://@cluster0.1xlo7.mongodb.net/note-dots?retryWrites=true&w=majority&appName=Cluster0';
 mongoose.connect(dbURI)
     .then((result) => app.listen(3000))
     .catch((err) => console.log(err));
@@ -30,32 +28,28 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(cookieParser());
 app.use(authRoutes);
+app.use(checkUser);
+app.use((req, res, next) => {
+    res.locals.user = req.user || null;  // This will set `user` to `req.user` if it's available, otherwise it will be null
+    next();
+});
 
 // routes with authentication
 
 //checkuser
-// app.get('*',checkUser);
+app.get('*',checkUser);
 
 app.get('/', requireAuth, (req,res) => {
-    res.redirect('/courses');
-})
-
-// app.get('/about', requireAuth, (req, res) => {
-//         res.render('about', { title: 'About' });
-// });
-
-// app.get('/login', requireAuth, (req,res) => {
-//     res.render('login', {title:'About'});
-// });
-
-// app.get('/signup', requireAuth, (req,res) => {
-//     res.render('signup', {title: 'About'});
-// });
-
-
-// app.get('/', (req, res) => {
-//     res.redirect('/courses');
-// });
+    Course.find()
+    .then((courses) => {
+        res.render('index', {title: 'Home', courses: courses});
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(500).send('Error retrieving courses');
+    });
+    
+});
 
 app.get('/about', (req, res) => {
     res.render('about', { title: 'About' });
@@ -66,11 +60,17 @@ app.get('/login', (req,res) => {
 });
 
 app.get('/signup', (req,res) => {
-    res.render('signup', {title: 'Signup'});
+    User.find()
+    res.redirect('/login');
 });
 
+app.get('logout', (req, res) => {
+    User.find()
+    res.redirect('/')
+})
+
 // course routes
-app.get('/courses/create', (req, res) => {
+app.get('/courses/create', requireAuth,(req, res) => {
     res.render('create-course', { title: 'Create a new Course' }); 
 });
 
@@ -109,6 +109,7 @@ app.post('/courses/:id', (req, res) => {
 });
 
 app.post('/courses', (req, res) => {
+    console.log(req.body);
     const course = new Course(req.body); 
 
     course.save()
@@ -117,6 +118,7 @@ app.post('/courses', (req, res) => {
         })
         .catch((err) => {
             console.log(err);
+            res.status(500).send('Error saving course');
         });
 });
 
