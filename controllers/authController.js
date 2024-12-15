@@ -59,13 +59,11 @@ module.exports.signup_post = async(req, res) => {
         // Set the JWT token as a cookie
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
 
-        req.session.user = user;
 
         // Return the user ID in the response
         // res.status(201).json({ user: user._id });
-        res.redirect('/login');
-        // Optionally store user in session (if using sessions)
-        // req.session.user = user;
+        return res.status(200).json({ redirect: '/login' });
+
     } catch (err) {
         // Handle validation errors and other issues
         const errors = handleErrors(err);

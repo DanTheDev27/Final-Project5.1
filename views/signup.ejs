@@ -45,14 +45,13 @@
         credentials: 'include'
       });
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       if (data.errors){
         emailError.textContent = data.errors.email;
         passwordError.textContent = data.errors.password;
       }
-      if (data.user) {
-        location.assign('/login');
-
+      if (data.redirect) {
+        window.location.href = data.redirect;
       }
         } catch(err) {
             console.log(err);
