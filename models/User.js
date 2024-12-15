@@ -15,6 +15,11 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Please enter a password'],
         minlength: [6,'Minimum password length is 6 characters']
     },
+    role: {
+        type: String,
+        enum: ['student', 'teacher'],
+        required: true,
+    },
 });
 
 // fire a function after doc saved to db
@@ -44,5 +49,5 @@ if (user) {
 throw Error('incorrect email')
 };
 
-const User = mongoose.model('user',userSchema);
+const User = mongoose.model('User',userSchema);
 module.exports = User;

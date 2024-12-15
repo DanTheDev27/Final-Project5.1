@@ -8,7 +8,9 @@
     <li><a href="/">Home</a></li>
     <li><a href="/courses">Courses</a></li>
     <li><a href="/about">About</a></li>
+    <% if (user.role === 'teacher') { %>
     <li><a href="/courses/create">Add new course</a></li> <!-- Updated link -->
+    <% } %>
     <li><a href="logout">Log out</a></li>
     <% } else  {%>
     <li><a href="/signup">Sign up</a></li>

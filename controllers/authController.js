@@ -39,7 +39,7 @@ const createToken = (id) => {
 }
 
 module.exports.signup_get = (req, res) => {
-    res.render('signup', {title: 'Sign up', user: req.body});
+    res.render('signup', {title: 'Sign up', user: res.locals.user});
 }
 
 module.exports.login_get = (req, res) => {
@@ -47,12 +47,12 @@ module.exports.login_get = (req, res) => {
 }
 
 module.exports.signup_post = async(req, res) => {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
 
     try {
         // Attempt to create a new user
-        const user = await User.create({ email, password });
-
+        const user = await User.create({ email, password, role });
+        console.log(user);
         // Generate a JWT token after successful signup
         const token = createToken(user._id);
 

@@ -12,7 +12,7 @@ const app = express();
 
 // connect to mongodb 
 // DO NOT UNDER AN CIRCUMSTANCE CHANGE THE CONST dbURI! Or give out the password. Seriously.
-const dbURI = 'mongodb+srv://@cluster0.ymr4b.mongodb.net/final-proj?retryWrites=true&w=majority&appName=Cluster0';
+const dbURI = 'mongodb+srv://net-ninja:pass123@cluster0.ymr4b.mongodb.net/final-proj?retryWrites=true&w=majority&appName=Cluster0';
 
 mongoose.connect(dbURI)
     .then((result) => app.listen(3000))
@@ -67,7 +67,62 @@ app.get('/signup', (req,res) => {
 app.get('logout', (req, res) => {
     User.find()
     res.redirect('/')
-})
+});
+
+app.post('/signup', async (req, res) => {
+    const { email, password, role } = req.body;
+
+    console.log('Received user data:', { email, password, role }); // Log the data
+
+    if (!role) {
+        return res.status(400).json({ errors: { role: 'Role is required' } });
+    }
+
+    try {
+        const user = new User({ email, password, role });
+        await user.save();  // Save user to DB
+        res.status(200).json({ user }); // Send back the saved user
+    } catch (err) {
+        console.log(err);  // Log any errors during the save operation
+        res.status(500).json({ error: 'Error saving user' });
+    }
+});
+
+
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    // Find user by email
+    const user = await User.findOne({ email });
+    if (!user) {
+        return res.status(400).json({ errors: { email: 'Email not found' } });
+    }
+
+    // Compare password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+        return res.status(400).json({ errors: { password: 'Incorrect password' } });
+    }
+
+    // Set the user in the session or token (for simplicity, here we use a cookie)
+    req.session.userId = user._id;
+
+    // Redirect based on role
+    if (user.role === 'teacher') {
+        return res.json({ user, redirect: '/teacher-dashboard' });  // Teacher dashboard route
+    } else {
+        return res.json({ user, redirect: '/courses' });  // Student courses route
+    }
+});
+app.get('/teacher-dashboard', requireAuth, (req, res) => {
+    // Only allow access to teachers
+    if (req.user.role !== 'teacher') {
+        return res.status(403).send('Forbidden');
+    }
+
+    res.render('teacher-dashboard', { title: 'Teacher Dashboard' });
+});
+
 
 // course routes
 app.get('/courses/create', requireAuth,(req, res) => {
